@@ -4,6 +4,22 @@
 
 > Estado del proyecto: **diseño / prototipado** — aún no existe implementación de la app; el material aquí publicado es la base sobre la cual se construirá.
 
+🌐 **[Ver los mockups interactivos](https://catau1625.github.io/conceTour3D/)** — publicado con GitHub Pages · [📦 Repositorio](https://github.com/catau1625/conceTour3D) · Licencia MIT
+
+---
+
+## Galería
+
+Las cinco paletas del sistema sobre el flujo completo en 6 fases. En el sitio puedes cambiarlas en vivo con el selector o con `?paleta=…` en la URL.
+
+| Estándar | Atardecer |
+|----------|-----------|
+| ![Lámina estándar](mockups/img/estandar/lamina-estandar.png) | ![Lámina atardecer](mockups/img/atardecer/lamina-atardecer.png) |
+
+| Bosque | Cítrica | Tropical |
+|--------|---------|----------|
+| ![Lámina bosque](mockups/img/bosque/lamina-bosque.png) | ![Lámina cítrica](mockups/img/citrica/lamina-citrica.png) | ![Lámina tropical](mockups/img/tropical/lamina-tropical.png) |
+
 ---
 
 ## ¿Qué es ConceTour 3D?
