@@ -1,0 +1,755 @@
+<title>ConceTour 3D Fases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* =====================================================================
+   PALETA ESTÁNDAR (neutra). Para probar otra paleta basta con
+   reemplazar los valores de este bloque :root (y el bloque dark).
+   ===================================================================== */
+:root{
+  --bg:#EEF1F5;          /* fondo de la lámina */
+  --surface:#FFFFFF;     /* pantalla del teléfono / tarjetas */
+  --surface-2:#F4F6F9;   /* campos, filas alternas */
+  --ink:#1B2430;         /* texto principal */
+  --muted:#6B7684;       /* texto secundario */
+  --line:#D8DEE6;        /* bordes y divisores */
+  --accent:#2563EB;      /* color de acción (botones primarios, ruta) */
+  --accent-ink:#FFFFFF;  /* texto sobre accent */
+  --accent-soft:#E4ECFB; /* fondo suave del accent */
+  --ok:#15803D;          /* éxito */
+  --ok-soft:#DCFCE7;
+  --star:#D97706;        /* destacados (estrellas) */
+  --star-soft:#FEF3C7;
+  --danger:#DC2626;      /* cerrar sesión / descartar */
+  --danger-soft:#FEE2E2;
+  --map-land:#F1EFE9;    /* mapa: manzanas */
+  --map-road:#FFFFFF;    /* mapa: calles */
+  --map-road-edge:#DAD6CC;
+  --map-park:#CDE8C8;    /* mapa: parque */
+  --map-water:#B7D6EE;   /* mapa: río Biobío */
+  --frame:#101418;       /* bisel del teléfono */
+  --shadow:0 18px 40px rgba(20,30,50,.16);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151A21; --surface:#1E242D; --surface-2:#262D37; --ink:#EDF1F6; --muted:#98A2B0;
+    --line:#37404C; --accent:#5B8DEF; --accent-ink:#0B1220; --accent-soft:#233555;
+    --ok:#4ADE80; --ok-soft:#173A26; --star:#FBBF24; --star-soft:#3F3313;
+    --danger:#F87171; --danger-soft:#4A1F1F;
+    --map-land:#2A2F36; --map-road:#3A414B; --map-road-edge:#4A525E; --map-park:#2E4A33; --map-water:#243A52;
+    --frame:#05070A; --shadow:0 18px 40px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151A21; --surface:#1E242D; --surface-2:#262D37; --ink:#EDF1F6; --muted:#98A2B0;
+  --line:#37404C; --accent:#5B8DEF; --accent-ink:#0B1220; --accent-soft:#233555;
+  --ok:#4ADE80; --ok-soft:#173A26; --star:#FBBF24; --star-soft:#3F3313;
+  --danger:#F87171; --danger-soft:#4A1F1F;
+  --map-land:#2A2F36; --map-road:#3A414B; --map-road-edge:#4A525E; --map-park:#2E4A33; --map-water:#243A52;
+  --frame:#05070A; --shadow:0 18px 40px rgba(0,0,0,.5);
+}
+
+/* =====================================================================
+   PALETAS DEL ARCHIVO conceTour3D-paletasTipo.pages
+   Se activan con data-palette="…" en <html> (o ?paleta=… en la URL).
+   Los 5 colores de cada paleta van en --p1…--p5; el resto son
+   derivados (fondos suaves, tintas) ajustados para contraste.
+   ===================================================================== */
+:root[data-palette]{color-scheme:light}
+:root[data-palette="atardecer"]{ /* FFCF9C · FF8C6B · E8543F · 7C3F82 · 2C2153 */
+  --p1:#FFCF9C;--p2:#FF8C6B;--p3:#E8543F;--p4:#7C3F82;--p5:#2C2153;
+  --bg:#FFF3E8; --surface:#FFFFFF; --surface-2:#FFF7EF; --ink:#2C2153; --muted:#7A6A8C; --line:#F0DCCB;
+  --accent:#7C3F82; --accent-ink:#FFFFFF; --accent-soft:#F2E4F4;
+  --ok:#2C2153; --ok-soft:#E7E3F2; --star:#E8543F; --star-soft:#FFE3D6; --danger:#E8543F; --danger-soft:#FFE3D6;
+  --map-land:#FCEBDC; --map-road:#FFFFFF; --map-road-edge:#F0D2BC; --map-park:#FFDFBE; --map-water:#DCCBE2;
+  --frame:#2C2153; --shadow:0 18px 40px rgba(44,33,83,.18);
+}
+:root[data-palette="bosque"]{ /* 77E4A3 · B6BE28 · D39E70 · 3CAEC7 · A57729 */
+  --p1:#77E4A3;--p2:#B6BE28;--p3:#D39E70;--p4:#3CAEC7;--p5:#A57729;
+  --bg:#F3F6EE; --surface:#FFFFFF; --surface-2:#F5F7F0; --ink:#3A2A12; --muted:#7A6A55; --line:#DCE3D3;
+  --accent:#3CAEC7; --accent-ink:#0E2F36; --accent-soft:#DDF1F5;
+  --ok:#2E9E64; --ok-soft:#DFF7E9; --star:#A57729; --star-soft:#F6E7D2; --danger:#B4512E; --danger-soft:#F6DED3;
+  --map-land:#EEF0E3; --map-road:#FFFFFF; --map-road-edge:#D6D9C4; --map-park:#B9E8CB; --map-water:#BFE3EC;
+  --frame:#2F3A2A; --shadow:0 18px 40px rgba(58,42,18,.16);
+}
+:root[data-palette="citrica"]{ /* DDEB75 · CDE7A2 · D2BF5B · E79737 · CD3518 */
+  --p1:#DDEB75;--p2:#CDE7A2;--p3:#D2BF5B;--p4:#E79737;--p5:#CD3518;
+  --bg:#F7F8EC; --surface:#FFFFFF; --surface-2:#F8F9EE; --ink:#2F2A12; --muted:#7A7050; --line:#E4E6CF;
+  --accent:#E79737; --accent-ink:#2B1A05; --accent-soft:#FBE8D2;
+  --ok:#8A9A1E; --ok-soft:#EEF5C8; --star:#B59F2E; --star-soft:#F7F0CF; --danger:#CD3518; --danger-soft:#FBE0DA;
+  --map-land:#F4F5E6; --map-road:#FFFFFF; --map-road-edge:#DEDFC3; --map-park:#CDE7A2; --map-water:#C9E6DD;
+  --frame:#3A2E10; --shadow:0 18px 40px rgba(58,46,16,.16);
+}
+:root[data-palette="tropical"]{ /* 00C2CB · 7FE0D4 · FFE38A · FF9A76 · FF5D8F */
+  --p1:#00C2CB;--p2:#7FE0D4;--p3:#FFE38A;--p4:#FF9A76;--p5:#FF5D8F;
+  --bg:#EEF9F9; --surface:#FFFFFF; --surface-2:#F2FAFA; --ink:#123A3D; --muted:#5C7276; --line:#CFE9EA;
+  --accent:#00C2CB; --accent-ink:#062B2D; --accent-soft:#D9F6F7;
+  --ok:#1EA79A; --ok-soft:#E0F7F3; --star:#E0A100; --star-soft:#FFF4CC; --danger:#E03A70; --danger-soft:#FFE0EA;
+  --map-land:#F2F4EA; --map-road:#FFFFFF; --map-road-edge:#DCE0CE; --map-park:#D2F3EE; --map-water:#BDEDF0;
+  --frame:#123A3D; --shadow:0 18px 40px rgba(18,58,61,.16);
+}
+
+/* selector de paleta en la cabecera */
+.palettes{display:flex;flex-wrap:wrap;gap:8px}
+.pal{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px 6px 8px;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
+.pal[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.pal .sws{display:flex}
+.pal .sws i{width:14px;height:14px;border-radius:50%;margin-left:-4px;border:1.5px solid var(--surface)}
+.pal .sws i:first-child{margin-left:0}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input{font:inherit;color:inherit}
+h1,h2,h3{margin:0;text-wrap:balance}
+
+/* ---------- lámina ---------- */
+.sheet{max-width:1320px;margin:0 auto;padding:36px 28px 60px}
+.sheet-head{display:flex;flex-wrap:wrap;gap:18px 40px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:34px}
+.sheet-head h1{font-size:28px;font-weight:800;letter-spacing:-.01em}
+.sheet-head .sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.legend{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);display:grid;gap:6px}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{width:14px;height:14px;border-radius:4px;border:1px solid var(--line);display:inline-block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:44px 32px;justify-items:center}
+.fase{display:grid;gap:14px;width:100%;max-width:400px}
+.cap{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--muted);display:grid;gap:4px}
+.cap b{color:var(--ink);font-weight:600}
+.cap .num{color:var(--accent);letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.hint{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted);line-height:1.5}
+
+/* ---------- teléfono ---------- */
+.phone{width:380px;height:780px;background:var(--frame);border-radius:44px;padding:12px;box-shadow:var(--shadow);position:relative}
+.screen{background:var(--surface);border-radius:34px;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.status{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 0;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.status .pill{width:96px;height:22px;background:var(--frame);border-radius:12px;position:absolute;left:50%;top:10px;transform:translateX(-50%)}
+.body{flex:1;overflow-y:auto;padding:16px 20px 24px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin}
+.export .phone{height:auto}
+.export .body{overflow:visible}
+
+/* ---------- topbar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative}
+.brand{font-weight:800;font-size:17px;letter-spacing:-.01em}
+.brand small{display:block;font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.back{background:none;border:0;padding:4px;color:var(--ink);display:flex;align-items:center;gap:6px;font-weight:600}
+.avatar{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13px;display:grid;place-items:center;padding:0;position:relative}
+.avatar.big{width:84px;height:84px;font-size:26px;border-width:3px}
+.avatar .caret{position:absolute;right:-4px;bottom:-4px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:9px;display:grid;place-items:center;color:var(--ink);transition:transform .2s}
+.avatar[aria-expanded="true"] .caret{transform:rotate(180deg)}
+.menu{position:absolute;right:0;top:48px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);min-width:180px;padding:6px;z-index:5;display:grid}
+.menu button{background:none;border:0;text-align:left;padding:10px 12px;border-radius:9px;display:flex;align-items:center;gap:10px;font-weight:500}
+.menu button:hover{background:var(--surface-2)}
+.menu button.danger{color:var(--danger)}
+.menu hr{border:0;border-top:1px solid var(--line);margin:4px 6px}
+
+/* ---------- textos ---------- */
+.eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.lead{color:var(--muted);margin:0}
+.label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.sec{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sec h3{font-size:14px;font-weight:700}
+
+/* ---------- botones ---------- */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 16px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;transition:transform .08s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.soft{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.btn.ghost{background:transparent;border-style:dashed;color:var(--muted)}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:12.5px;border-radius:9px}
+.btn.danger{color:var(--danger);border-color:var(--danger-soft);background:var(--danger-soft)}
+.btn.block{width:100%}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.tile{flex-direction:column;gap:10px;padding:22px 14px;border-radius:18px;font-size:14.5px}
+.tile .ico{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:var(--accent-soft);color:var(--accent)}
+.tile.primary .ico{background:rgba(255,255,255,.18);color:var(--accent-ink)}
+
+/* ---------- campos ---------- */
+.field{display:grid;gap:6px}
+.input{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:11px;padding:11px 12px;min-height:42px;display:flex;align-items:center;gap:8px}
+.input input{border:0;background:transparent;width:100%;padding:0;outline:none}
+.input .ph{color:var(--muted)}
+.input .pin{color:var(--accent);font-size:15px}
+.input .pin.end{color:var(--danger)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px;border:1px solid var(--line);border-radius:12px}
+.toggle-row .t{display:grid;gap:2px}
+.toggle-row .t b{font-weight:600}
+.toggle-row .t span{font-size:12px;color:var(--muted)}
+.switch{width:46px;height:26px;border-radius:13px;background:var(--line);border:0;position:relative;padding:0;flex:none;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"]::after{transform:translateX(20px)}
+.reveal{display:grid;gap:8px;padding:0 4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;background:var(--surface);font-weight:500}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip.star{background:var(--star-soft);border-color:transparent;color:var(--star)}
+.chip.stop{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+
+/* tramos */
+.tramo{border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:10px;background:var(--surface)}
+.tramo .head{display:flex;justify-content:space-between;align-items:center}
+.tramo .head b{font-weight:700}
+.tramo .head span{font-size:11px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.tramo .conn{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;padding-left:4px}
+.tramo .conn i{width:2px;height:14px;background:var(--line);margin-left:6px;display:block}
+.adds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.adds .btn.wide{grid-column:1/-1}
+
+/* ---------- ticket ---------- */
+.ticket{border:1px solid var(--line);border-radius:18px;padding:22px 18px 18px;display:grid;gap:8px;justify-items:center;text-align:center;position:relative;background:var(--surface)}
+.ticket::before,.ticket::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:var(--surface);border:1px solid var(--line);top:calc(100% - 66px)}
+.ticket::before{left:-11px;clip-path:inset(0 0 0 50%)}
+.ticket::after{right:-11px;clip-path:inset(0 50% 0 0)}
+.ticket .dash{width:100%;border-top:1px dashed var(--line);margin-top:6px}
+.check{width:64px;height:64px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+.ticket h2{font-size:20px;font-weight:800}
+.ticket .name{color:var(--accent);font-weight:700;font-size:16px}
+.meta{display:flex;gap:6px 14px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta b{color:var(--ink);font-weight:600}
+
+/* ---------- mapa ---------- */
+.map{border-radius:16px;overflow:hidden;border:1px solid var(--line);position:relative;background:var(--map-land)}
+.map svg{display:block;width:100%;height:auto}
+.map .tag{position:absolute;left:10px;bottom:10px;font-size:10px;font-weight:600;background:var(--surface);color:var(--muted);padding:3px 8px;border-radius:999px;border:1px solid var(--line)}
+.map .zoom{position:absolute;right:10px;top:10px;display:grid;gap:2px}
+.map .zoom span{width:26px;height:26px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--ink)}
+.map .zoom span:first-child{border-radius:7px 7px 0 0}.map .zoom span:last-child{border-radius:0 0 7px 7px}
+.mapkey{display:flex;gap:14px;font-size:11.5px;color:var(--muted);align-items:center}
+.mapkey i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--accent);margin-right:5px;vertical-align:-1px}
+.mapkey i.st{background:none;color:var(--star);width:auto;height:auto;font-style:normal;font-size:14px;line-height:1}
+
+/* ---------- share sheet ---------- */
+.share{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border:1px solid var(--line);border-radius:16px;padding:14px 12px;background:var(--surface-2)}
+.share button{background:none;border:0;display:grid;justify-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--ink)}
+.share button i{width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:18px;color:var(--accent)}
+.linkbox{display:flex;align-items:center;gap:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:8px 10px;grid-column:1/-1}
+.linkbox b{color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+
+/* ---------- perfil ---------- */
+.prof-head{display:grid;justify-items:center;gap:8px;text-align:center;padding-top:4px}
+.prof-head .change{font-size:12px;color:var(--accent);background:none;border:0;font-weight:600}
+.datos{display:grid;gap:8px}
+.dato{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:8px 8px 8px 12px}
+.dato .k{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;width:64px;flex:none}
+.dato .v{flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dato input{flex:1;border:0;border-bottom:2px solid var(--accent);background:transparent;padding:2px 0;min-width:0;font-weight:500}
+.dato .edit{width:34px;height:34px;border-radius:9px;border:0;background:var(--surface-2);display:grid;place-items:center;color:var(--accent);flex:none}
+.dato.editing{border-color:var(--accent);background:var(--accent-soft)}
+.savebar{display:flex;gap:10px}
+.savebar[hidden]{display:none}
+
+/* listas desplegables */
+.acc{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.acc>button{width:100%;background:var(--surface);border:0;display:flex;align-items:center;justify-content:space-between;padding:13px 14px;font-weight:700}
+.acc>button .n{font-weight:500;color:var(--muted);font-size:12px;margin-left:8px;font-variant-numeric:tabular-nums}
+.acc>button .chev{transition:transform .2s;color:var(--muted)}
+.acc>button[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.acc .list{border-top:1px solid var(--line);display:grid}
+.acc .list[hidden]{display:none}
+.rt{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 14px;border-top:1px solid var(--line)}
+.rt:first-child{border-top:0}
+.rt .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.rt .dot.mine{background:var(--ok)}.rt .dot.fav{background:var(--star)}
+.rt .t{flex:1;min-width:0}
+.rt .t b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rt .t span{font-size:11.5px;color:var(--muted)}
+
+/* ---------- ver ruta ---------- */
+.item{border-top:1px solid var(--line)}
+.item:first-child{border-top:0}
+.item>button{width:100%;background:none;border:0;display:flex;align-items:center;gap:10px;padding:11px 12px 11px 14px;text-align:left}
+.item>button .mk{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:11.5px;font-weight:700;display:grid;place-items:center;flex:none}
+.item>button .mk.st{background:var(--star-soft);color:var(--star);font-size:14px}
+.item>button .t{flex:1;min-width:0}
+.item>button .t b{display:block;font-weight:600}
+.item>button .t span{font-size:11.5px;color:var(--muted)}
+.item>button .chev{color:var(--muted);transition:transform .2s}
+.item>button[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.item .det{padding:0 12px 14px 14px;display:grid;gap:10px}
+.item .det[hidden]{display:none}
+.item .det p{margin:0;font-size:12.5px;color:var(--muted)}
+.car{position:relative;border-radius:12px;overflow:hidden;background:var(--surface-2);aspect-ratio:16/9}
+.car .slides{display:flex;height:100%;transition:transform .3s}
+.car .slide{flex:0 0 100%;height:100%}
+.car .slide svg{width:100%;height:100%;display:block}
+.car .nav{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#1B2430;display:grid;place-items:center;font-size:14px;font-weight:700}
+.car .nav.prev{left:8px}.car .nav.next{right:8px}
+.car .dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.car .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55)}
+.car .dots i.on{background:#fff;width:14px;border-radius:3px}
+.car .cnt{position:absolute;top:8px;right:8px;font-size:10.5px;font-weight:600;background:rgba(0,0,0,.45);color:#fff;padding:2px 7px;border-radius:999px;font-variant-numeric:tabular-nums}
+.sticky-cta{position:sticky;bottom:0;padding-top:8px;background:linear-gradient(to top,var(--surface) 70%,transparent)}
+.toast{position:absolute;left:50%;bottom:28px;transform:translate(-50%,10px);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:999px;font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="sheet">
+  <header class="sheet-head">
+    <div>
+      <h1>ConceTour 3D · flujo en 6 fases</h1>
+      <p class="sub">Mockups interactivos derivados del boceto. Cada teléfono funciona por separado: menús, switches, listas desplegables y carruseles responden al clic. Los colores son estándar y viven en un solo bloque de variables para probar las paletas después.</p>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div class="palettes">
+        <button class="pal" data-pal="" aria-pressed="true"><span class="sws"><i style="background:#2563EB"></i><i style="background:#15803D"></i><i style="background:#D97706"></i><i style="background:#DC2626"></i><i style="background:#6B7684"></i></span>Estándar</button>
+        <button class="pal" data-pal="atardecer" aria-pressed="false"><span class="sws"><i style="background:#FFCF9C"></i><i style="background:#FF8C6B"></i><i style="background:#E8543F"></i><i style="background:#7C3F82"></i><i style="background:#2C2153"></i></span>Atardecer</button>
+        <button class="pal" data-pal="bosque" aria-pressed="false"><span class="sws"><i style="background:#77E4A3"></i><i style="background:#B6BE28"></i><i style="background:#D39E70"></i><i style="background:#3CAEC7"></i><i style="background:#A57729"></i></span>Bosque</button>
+        <button class="pal" data-pal="citrica" aria-pressed="false"><span class="sws"><i style="background:#DDEB75"></i><i style="background:#CDE7A2"></i><i style="background:#D2BF5B"></i><i style="background:#E79737"></i><i style="background:#CD3518"></i></span>Cítrica</button>
+        <button class="pal" data-pal="tropical" aria-pressed="false"><span class="sws"><i style="background:#00C2CB"></i><i style="background:#7FE0D4"></i><i style="background:#FFE38A"></i><i style="background:#FF9A76"></i><i style="background:#FF5D8F"></i></span>Tropical</button>
+      </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--accent)"></i> accent · acciones y trazado de ruta</span>
+      <span><i class="sw" style="background:var(--ok)"></i> ok · éxito / rutas propias</span>
+      <span><i class="sw" style="background:var(--star)"></i> star · lugares destacados</span>
+      <span><i class="sw" style="background:var(--danger)"></i> danger · cerrar sesión / descartar</span>
+    </div>
+    </div>
+  </header>
+
+  <main class="grid">
+
+  <!-- ============ FASE 1 · INICIO ============ -->
+  <section class="fase" data-fase="1">
+    <div class="cap"><span class="num">Fase 1</span><b>Inicio de sesión · bienvenida</b><span class="hint">Clic en la foto de perfil despliega el menú (Perfil · Mis rutas · Cerrar sesión).</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <div class="brand">ConceTour 3D<small>Concepción · Biobío</small></div>
+          <button class="avatar" aria-expanded="true" aria-label="Menú de usuario" data-menu="m1">CU<span class="caret">▼</span></button>
+          <nav class="menu" id="m1">
+            <button>👤 Perfil</button>
+            <button>🗺️ Mis rutas</button>
+            <hr>
+            <button class="danger">⏻ Cerrar sesión</button>
+          </nav>
+        </div>
+        <div style="margin-top:34px;display:grid;gap:6px">
+          <p class="eyebrow">Bienvenida</p>
+          <h2 class="title">Hola, Catalina 👋</h2>
+          <p class="lead">¿Qué quieres hacer hoy en Concepción?</p>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <button class="btn tile primary"><span class="ico">+</span>Crear recorrido</button>
+          <button class="btn tile"><span class="ico">⇢</span>Unirse a recorrido</button>
+        </div>
+        <div style="flex:1"></div>
+        <div class="row">
+          <button class="btn sm ghost">Rutas públicas cerca</button>
+          <button class="btn sm ghost">Ayuda</button>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ============ FASE 2 · CREAR RUTA ============ -->
+  <section class="fase" data-fase="2">
+    <div class="cap"><span class="num">Fase 2</span><b>Crear ruta · formulario</b><span class="hint">Switches Pública / Horarios funcionan. Los botones agregan paradas, tramos y destacados. «Crear ruta» cierra el proceso.</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <button class="back">← <span>Crear ruta</span></button>
+          <button class="avatar" aria-label="Menú de usuario">CU</button>
+        </div>
+        <div class="field">
+          <span class="label">Nombre de la ruta</span>
+          <div class="input"><input value="Centro histórico de Conce"></div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="t"><b>Ruta pública</b><span data-on="Cualquiera puede unirse y verla" data-off="Privada · solo con enlace de invitación">Cualquiera puede unirse y verla</span></div>
+          <button class="switch" role="switch" aria-checked="true" aria-label="Ruta pública"></button>
+        </div>
+
+        <div class="toggle-row">
+          <div class="t"><b>Incluir horarios</b><span data-on="Se muestran al unirse a la ruta" data-off="Ruta sin horario definido">Ruta sin horario definido</span></div>
+          <button class="switch" role="switch" aria-checked="false" aria-label="Incluir horarios" data-reveal="hor2"></button>
+        </div>
+        <div class="reveal" id="hor2" hidden>
+          <div class="row">
+            <div class="field"><span class="label">Inicio</span><div class="input"><input value="10:00"></div></div>
+            <div class="field"><span class="label">Término</span><div class="input"><input value="12:30"></div></div>
+          </div>
+          <div class="chips"><span class="chip on">L</span><span class="chip">M</span><span class="chip on">X</span><span class="chip">J</span><span class="chip on">V</span><span class="chip on">S</span><span class="chip">D</span></div>
+        </div>
+
+        <div class="sec"><h3>Tramos de la ruta</h3><span class="label" id="tcount">2 tramos</span></div>
+        <div id="tramos" style="display:grid;gap:10px">
+          <div class="tramo">
+            <div class="head"><b>Tramo 1</b><span>recto · 650 m</span></div>
+            <div class="input"><span class="pin">●</span><input value="Plaza de la Independencia"></div>
+            <div class="conn"><i></i></div>
+            <div class="input"><span class="pin end">■</span><input value="Catedral de la Santísima Concepción"></div>
+            <div class="chips"><span class="chip stop">● Parada · Plaza</span><span class="chip star">★ Destacado · Fuente de la Plaza</span></div>
+          </div>
+          <div class="tramo">
+            <div class="head"><b>Tramo 2</b><span>recto · 900 m</span></div>
+            <div class="input"><span class="pin">●</span><input value="Catedral de la Santísima Concepción"></div>
+            <div class="conn"><i></i></div>
+            <div class="input"><span class="pin end">■</span><input value="Parque Ecuador"></div>
+            <div class="chips"><span class="chip stop">● Parada · Galería de la Historia</span></div>
+          </div>
+        </div>
+        <div class="adds">
+          <button class="btn sm soft" data-add="parada">+ Agregar parada</button>
+          <button class="btn sm soft" data-add="destacado" style="background:var(--star-soft);color:var(--star)">★ Agregar destacado</button>
+          <button class="btn sm ghost wide" data-add="tramo">+ Agregar tramo</button>
+        </div>
+        <div class="sticky-cta"><button class="btn primary block" data-toast="Ruta creada ✓">Crear ruta</button></div>
+      </div>
+      <div class="toast">Ruta creada ✓</div>
+    </div></div>
+  </section>
+
+  <!-- ============ FASE 3 · RUTA CREADA ============ -->
+  <section class="fase" data-fase="3">
+    <div class="cap"><span class="num">Fase 3</span><b>Ruta creada · ticket de éxito y mapa</b><span class="hint">«Compartir» abre las opciones de envío. «Modificar» vuelve al formulario de la fase 2.</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <div class="brand">ConceTour 3D<small>Ruta creada</small></div>
+          <button class="avatar" aria-label="Menú de usuario">CU</button>
+        </div>
+        <div class="ticket">
+          <div class="check"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 7"/></svg></div>
+          <h2>¡La ruta está lista!</h2>
+          <div class="name">Centro histórico de Conce</div>
+          <div class="meta"><span><b>3</b> tramos</span><span><b>4</b> paradas</span><span><b>2</b> destacados</span><span><b>Pública</b></span></div>
+          <div class="dash"></div>
+          <div class="meta" style="font-family:'IBM Plex Mono',monospace"><span>código <b>CT-4F7K</b></span><span>08 sep 2026</span></div>
+        </div>
+        <div class="map" data-map="s"></div>
+        <div class="row">
+          <button class="btn primary" data-share="sh3">⇪ Compartir</button>
+          <button class="btn">✎ Modificar</button>
+        </div>
+        <div class="share" id="sh3" hidden>
+          <button><i>🔗</i>Copiar enlace</button>
+          <button><i>💬</i>WhatsApp</button>
+          <button><i>▦</i>Código QR</button>
+          <div class="linkbox">🔗 <b>concetour3d.app/r/CT-4F7K</b><span>copiar</span></div>
+        </div>
+      </div>
+      <div class="toast">Enlace copiado</div>
+    </div></div>
+  </section>
+
+  <!-- ============ FASE 4 · PERFIL ============ -->
+  <section class="fase" data-fase="4">
+    <div class="cap"><span class="num">Fase 4</span><b>Perfil · datos editables y listas</b><span class="hint">El lápiz edita un dato a la vez; al cambiar algo aparecen «Guardar cambios» y «Descartar». Las tres listas están plegadas.</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <button class="back">← <span>Perfil</span></button>
+          <button class="avatar" aria-label="Menú de usuario">CU</button>
+        </div>
+        <div class="prof-head">
+          <div class="avatar big">CU</div>
+          <button class="change">Cambiar foto</button>
+        </div>
+        <div class="datos" data-profile>
+          <div class="dato"><span class="k">Nombre</span><span class="v">Catalina Ubilla</span><button class="edit" aria-label="Editar nombre">✎</button></div>
+          <div class="dato"><span class="k">Correo</span><span class="v">catalina@ejemplo.cl</span><button class="edit" aria-label="Editar correo">✎</button></div>
+          <div class="dato"><span class="k">Usuario</span><span class="v">@cata.conce</span><button class="edit" aria-label="Editar usuario">✎</button></div>
+          <div class="dato"><span class="k">Ciudad</span><span class="v">Concepción</span><button class="edit" aria-label="Editar ciudad">✎</button></div>
+          <div class="savebar" hidden>
+            <button class="btn danger" data-act="discard">Descartar</button>
+            <button class="btn primary" data-act="save">Guardar cambios</button>
+          </div>
+        </div>
+
+        <div class="acc"><button aria-expanded="false"><span>Rutas recorridas<span class="n">3</span></span><span class="chev">▾</span></button>
+          <div class="list" hidden>
+            <div class="rt"><i class="dot"></i><div class="t"><b>Barrio Universitario</b><span>por @pedro.b · 2,1 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot"></i><div class="t"><b>Costanera y Parque Bicentenario</b><span>por @conce.tours · 3,4 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot"></i><div class="t"><b>Murales de Lorenzo Arenas</b><span>por @arte.bb · 1,6 km</span></div><button class="btn sm soft">Ver</button></div>
+          </div></div>
+        <div class="acc"><button aria-expanded="false"><span>Mis rutas<span class="n">2</span></span><span class="chev">▾</span></button>
+          <div class="list" hidden>
+            <div class="rt"><i class="dot mine"></i><div class="t"><b>Centro histórico de Conce</b><span>pública · 2,3 km · 4 paradas</span></div><button class="btn sm">Modificar</button></div>
+            <div class="rt"><i class="dot mine"></i><div class="t"><b>Cerro Caracol al atardecer</b><span>privada · 4,0 km · 3 paradas</span></div><button class="btn sm">Modificar</button></div>
+          </div></div>
+        <div class="acc"><button aria-expanded="false"><span>Rutas favoritas<span class="n">4</span></span><span class="chev">▾</span></button>
+          <div class="list" hidden>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Barrio Universitario</b><span>por @pedro.b · 2,1 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Mercado Central y alrededores</b><span>por @sabores.cl · 1,2 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Ruta del Biobío</b><span>por @conce.tours · 5,8 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Murales de Lorenzo Arenas</b><span>por @arte.bb · 1,6 km</span></div><button class="btn sm soft">Ver</button></div>
+          </div></div>
+      </div>
+      <div class="toast">Cambios guardados</div>
+    </div></div>
+  </section>
+
+  <!-- ============ FASE 5 · PERFIL CON LISTAS DESPLEGADAS ============ -->
+  <section class="fase" data-fase="5">
+    <div class="cap"><span class="num">Fase 5</span><b>Perfil · listas desplegadas</b><span class="hint">Recorridas y favoritas muestran «Ver»; Mis rutas muestra «Modificar». Cada cabecera pliega y despliega su lista.</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <button class="back">← <span>Perfil</span></button>
+          <button class="avatar" aria-label="Menú de usuario">CU</button>
+        </div>
+        <div class="dato" style="gap:12px"><div class="avatar" style="width:44px;height:44px">CU</div><div class="t" style="flex:1;min-width:0"><b style="display:block">Catalina Ubilla</b><span style="font-size:12px;color:var(--muted)">@cata.conce · Concepción</span></div><button class="edit" aria-label="Editar perfil">✎</button></div>
+
+        <div class="acc"><button aria-expanded="true"><span>Rutas recorridas<span class="n">3</span></span><span class="chev">▾</span></button>
+          <div class="list">
+            <div class="rt"><i class="dot"></i><div class="t"><b>Barrio Universitario</b><span>por @pedro.b · 2,1 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot"></i><div class="t"><b>Costanera y Parque Bicentenario</b><span>por @conce.tours · 3,4 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot"></i><div class="t"><b>Murales de Lorenzo Arenas</b><span>por @arte.bb · 1,6 km</span></div><button class="btn sm soft">Ver</button></div>
+          </div></div>
+        <div class="acc"><button aria-expanded="true"><span>Mis rutas<span class="n">2</span></span><span class="chev">▾</span></button>
+          <div class="list">
+            <div class="rt"><i class="dot mine"></i><div class="t"><b>Centro histórico de Conce</b><span>pública · 2,3 km · 4 paradas</span></div><button class="btn sm">Modificar</button></div>
+            <div class="rt"><i class="dot mine"></i><div class="t"><b>Cerro Caracol al atardecer</b><span>privada · 4,0 km · 3 paradas</span></div><button class="btn sm">Modificar</button></div>
+          </div></div>
+        <div class="acc"><button aria-expanded="true"><span>Rutas favoritas<span class="n">4</span></span><span class="chev">▾</span></button>
+          <div class="list">
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Barrio Universitario</b><span>por @pedro.b · 2,1 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Mercado Central y alrededores</b><span>por @sabores.cl · 1,2 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Ruta del Biobío</b><span>por @conce.tours · 5,8 km</span></div><button class="btn sm soft">Ver</button></div>
+            <div class="rt"><i class="dot fav"></i><div class="t"><b>Murales de Lorenzo Arenas</b><span>por @arte.bb · 1,6 km</span></div><button class="btn sm soft">Ver</button></div>
+          </div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ============ FASE 6 · VER RUTA ============ -->
+  <section class="fase" data-fase="6">
+    <div class="cap"><span class="num">Fase 6</span><b>Ver ruta · mapa, paradas y destacados</b><span class="hint">Puntos = paradas, estrellas = destacados. Cada ítem despliega un carrusel de 3 imágenes y una descripción breve.</span></div>
+    <div class="phone"><div class="screen">
+      <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
+      <div class="body">
+        <div class="topbar">
+          <button class="back">← <span>Ruta</span></button>
+          <button class="btn sm" aria-label="Guardar en favoritas">☆ Guardar</button>
+        </div>
+        <div style="display:grid;gap:4px">
+          <h2 class="title" style="font-size:22px">Centro histórico de Conce</h2>
+          <div class="meta" style="justify-content:flex-start"><span>por <b>@cata.conce</b></span><span><b>2,3</b> km</span><span><b>~1 h 10</b></span><span><b>Pública</b></span></div>
+        </div>
+        <div class="map" data-map="l"></div>
+        <div class="mapkey"><span><i></i>Paradas (4)</span><span><i class="st">★</i>Destacados (2)</span></div>
+
+        <div class="acc"><button aria-expanded="true"><span>Paradas<span class="n">4</span></span><span class="chev">▾</span></button>
+          <div class="list">
+            <div class="item"><button aria-expanded="true"><span class="mk">1</span><div class="t"><b>Plaza de la Independencia</b><span>Inicio · O'Higgins con Caupolicán</span></div><span class="chev">▾</span></button>
+              <div class="det">
+                <div class="car" data-car data-theme-a="#7AA7D8" data-theme-b="#3E6FA8" data-label="Plaza"></div>
+                <p>Corazón fundacional de la ciudad. Aquí se declaró la Independencia de Chile en 1818; la fuente central y los árboles centenarios marcan el punto de partida.</p>
+              </div></div>
+            <div class="item"><button aria-expanded="false"><span class="mk">2</span><div class="t"><b>Catedral de la Santísima Concepción</b><span>Parada · 650 m</span></div><span class="chev">▾</span></button>
+              <div class="det" hidden>
+                <div class="car" data-car data-theme-a="#C9B79C" data-theme-b="#8A7250" data-label="Catedral"></div>
+                <p>Templo de estilo neorrománico reconstruido tras el terremoto de 1939. Desde el atrio se ve toda la plaza.</p>
+              </div></div>
+            <div class="item"><button aria-expanded="false"><span class="mk">3</span><div class="t"><b>Galería de la Historia</b><span>Parada · 1,4 km</span></div><span class="chev">▾</span></button>
+              <div class="det" hidden>
+                <div class="car" data-car data-theme-a="#A9C8A0" data-theme-b="#4F7A4A" data-label="Galería"></div>
+                <p>Dioramas que cuentan la historia de Concepción desde el pueblo mapuche hasta el siglo XX. Entrada liberada.</p>
+              </div></div>
+            <div class="item"><button aria-expanded="false"><span class="mk">4</span><div class="t"><b>Parque Ecuador</b><span>Término · 2,3 km</span></div><span class="chev">▾</span></button>
+              <div class="det" hidden>
+                <div class="car" data-car data-theme-a="#8FCB9B" data-theme-b="#2F7A45" data-label="Parque"></div>
+                <p>Faldeo del Cerro Caracol con áreas verdes, juegos y ferias de fin de semana. Fin del recorrido.</p>
+              </div></div>
+          </div></div>
+
+        <div class="acc"><button aria-expanded="true"><span>Lugares destacados<span class="n">2</span></span><span class="chev">▾</span></button>
+          <div class="list">
+            <div class="item"><button aria-expanded="false"><span class="mk st">★</span><div class="t"><b>Fuente de la Plaza</b><span>Coincide con la parada 1</span></div><span class="chev">▾</span></button>
+              <div class="det" hidden>
+                <div class="car" data-car data-theme-a="#F2C879" data-theme-b="#B7791F" data-label="Fuente"></div>
+                <p>Pila de mármol de 1856 con la figura de Ceres. Mejor foto: al atardecer, con la Catedral de fondo.</p>
+              </div></div>
+            <div class="item"><button aria-expanded="false"><span class="mk st">★</span><div class="t"><b>Mural «Presencia de América Latina»</b><span>Casa del Arte · entre paradas 3 y 4</span></div><span class="chev">▾</span></button>
+              <div class="det" hidden>
+                <div class="car" data-car data-theme-a="#E8A97C" data-theme-b="#A64B2A" data-label="Mural"></div>
+                <p>Mural de Jorge González Camarena (1965), 300 m² de historia latinoamericana. Monumento Nacional desde 2009.</p>
+              </div></div>
+          </div></div>
+        <div class="sticky-cta"><button class="btn primary block" data-toast="Iniciando recorrido…">▶ Iniciar recorrido</button></div>
+      </div>
+      <div class="toast">Iniciando recorrido…</div>
+    </div></div>
+  </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  /* ---------- modo exportación: ?fase=N muestra solo esa fase ---------- */
+  var params = new URLSearchParams(location.search);
+  var q = params.get('fase');
+  /* ---------- paletas: ?paleta=atardecer|bosque|citrica|tropical ---------- */
+  var root=document.documentElement, pal=params.get('paleta');
+  if(pal===null){ try{ pal=localStorage.getItem('ct3d-paleta')||''; }catch(e){ pal=''; } }
+  function setPal(p){
+    if(p) root.setAttribute('data-palette',p); else root.removeAttribute('data-palette');
+    document.querySelectorAll('[data-pal]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.pal===p); });
+    try{ localStorage.setItem('ct3d-paleta',p); }catch(e){}
+  }
+  setPal(pal||'');
+  document.querySelectorAll('[data-pal]').forEach(function(b){ b.addEventListener('click',function(){ setPal(b.dataset.pal); }); });
+  if(q){
+    document.body.classList.add('export');
+    document.querySelector('.sheet-head').hidden = true;
+    document.querySelectorAll('.fase').forEach(function(s){ s.hidden = s.dataset.fase !== q; });
+    document.querySelector('.sheet').style.padding = '24px';
+  }
+
+  /* ---------- mapa (SVG generado) ---------- */
+  function mapSVG(size){
+    var W=340, H = size==='l' ? 230 : 170;
+    var s = [];
+    s.push('<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de la ruta">');
+    s.push('<rect width="'+W+'" height="'+H+'" fill="var(--map-land)"/>');
+    // río Biobío en la esquina inferior izquierda
+    s.push('<path d="M-10 '+(H-20)+' C 60 '+(H-40)+', 90 '+(H+10)+', 150 '+(H-8)+' L 150 '+(H+20)+' L -10 '+(H+20)+' Z" fill="var(--map-water)"/>');
+    // parque
+    s.push('<rect x="'+(W-96)+'" y="'+(H-86)+'" width="80" height="66" rx="8" fill="var(--map-park)"/>');
+    // calles (grilla ligeramente girada)
+    s.push('<g stroke="var(--map-road-edge)" stroke-width="7" stroke-linecap="round">');
+    for(var i=0;i<7;i++){ var x=20+i*52; s.push('<line x1="'+x+'" y1="-10" x2="'+(x+18)+'" y2="'+(H+10)+'"/>'); }
+    for(var j=0;j<5;j++){ var y=18+j*48; s.push('<line x1="-10" y1="'+y+'" x2="'+(W+10)+'" y2="'+(y-14)+'"/>'); }
+    s.push('</g><g stroke="var(--map-road)" stroke-width="5" stroke-linecap="round">');
+    for(var i2=0;i2<7;i2++){ var x2=20+i2*52; s.push('<line x1="'+x2+'" y1="-10" x2="'+(x2+18)+'" y2="'+(H+10)+'"/>'); }
+    for(var j2=0;j2<5;j2++){ var y2=18+j2*48; s.push('<line x1="-10" y1="'+y2+'" x2="'+(W+10)+'" y2="'+(y2-14)+'"/>'); }
+    s.push('</g>');
+    // ruta (tramos rectos) — coordenadas escaladas a la altura
+    var k = H/230;
+    var P = [[52,150*k],[128,132*k],[196,168*k],[262,120*k]];
+    var stars = [[70,124*k],[236,150*k]];
+    var d = P.map(function(p,i){ return (i?'L':'M')+p[0]+' '+p[1]; }).join(' ');
+    s.push('<path d="'+d+'" stroke="var(--surface)" stroke-width="9" fill="none" stroke-linejoin="round" stroke-linecap="round" opacity=".9"/>');
+    s.push('<path d="'+d+'" stroke="var(--accent)" stroke-width="4.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>');
+    stars.forEach(function(p){
+      s.push('<g transform="translate('+p[0]+' '+p[1]+')"><circle r="11" fill="var(--star-soft)" stroke="var(--star)" stroke-width="1.5"/><path d="M0 -6.5 L1.9 -2 L6.8 -1.6 L3.1 1.7 L4.2 6.5 L0 4 L-4.2 6.5 L-3.1 1.7 L-6.8 -1.6 L-1.9 -2 Z" fill="var(--star)"/></g>');
+    });
+    P.forEach(function(p,i){
+      s.push('<g transform="translate('+p[0]+' '+p[1]+')"><circle r="10" fill="var(--accent)" stroke="var(--surface)" stroke-width="3"/><text y="3.5" text-anchor="middle" font-size="10" font-weight="700" fill="var(--accent-ink)" font-family="Plus Jakarta Sans,sans-serif">'+(i+1)+'</text></g>');
+    });
+    s.push('</svg>');
+    return s.join('')+'<span class="tag">Google Maps · vista previa</span><div class="zoom"><span>+</span><span>−</span></div>';
+  }
+  document.querySelectorAll('[data-map]').forEach(function(m){ m.innerHTML = mapSVG(m.dataset.map); });
+
+  /* ---------- carrusel de 3 imágenes referenciales ---------- */
+  function slide(a,b,label,n){
+    return '<div class="slide"><svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'
+      +'<defs><linearGradient id="g'+label+n+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs>'
+      +'<rect width="320" height="180" fill="url(#g'+label+n+')"/>'
+      +'<circle cx="'+(60+n*40)+'" cy="52" r="18" fill="#fff" opacity=".7"/>'
+      +'<path d="M0 180 L70 '+(110+n*10)+' L130 150 L190 '+(95+n*12)+' L250 140 L320 100 L320 180 Z" fill="#000" opacity=".18"/>'
+      +'<text x="16" y="164" font-size="12" font-weight="600" fill="#fff" opacity=".9" font-family="Plus Jakarta Sans,sans-serif">'+label+' · foto '+(n+1)+' de 3</text>'
+      +'</svg></div>';
+  }
+  document.querySelectorAll('[data-car]').forEach(function(c){
+    var a=c.dataset.themeA, b=c.dataset.themeB, l=c.dataset.label, idx=0;
+    c.innerHTML = '<div class="slides">'+slide(a,b,l,0)+slide(b,a,l,1)+slide(a,b,l,2)+'</div>'
+      +'<button class="nav prev" aria-label="Anterior">‹</button><button class="nav next" aria-label="Siguiente">›</button>'
+      +'<div class="dots"><i class="on"></i><i></i><i></i></div><span class="cnt">1 / 3</span>';
+    var slides=c.querySelector('.slides'), dots=c.querySelectorAll('.dots i'), cnt=c.querySelector('.cnt');
+    function go(n){ idx=(n+3)%3; slides.style.transform='translateX(-'+idx*100+'%)'; dots.forEach(function(d,i){d.classList.toggle('on',i===idx)}); cnt.textContent=(idx+1)+' / 3'; }
+    c.querySelector('.prev').addEventListener('click',function(){go(idx-1)});
+    c.querySelector('.next').addEventListener('click',function(){go(idx+1)});
+  });
+
+  /* ---------- menú del avatar ---------- */
+  document.querySelectorAll('[data-menu]').forEach(function(b){
+    var m=document.getElementById(b.dataset.menu);
+    b.addEventListener('click',function(){ var open=b.getAttribute('aria-expanded')==='true'; b.setAttribute('aria-expanded',!open); m.hidden=open; });
+  });
+
+  /* ---------- switches ---------- */
+  document.querySelectorAll('.switch').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      var on = sw.getAttribute('aria-checked')!=='true';
+      sw.setAttribute('aria-checked',on);
+      var txt = sw.parentElement.querySelector('.t span');
+      if(txt) txt.textContent = on ? txt.dataset.on : txt.dataset.off;
+      if(sw.dataset.reveal){ document.getElementById(sw.dataset.reveal).hidden = !on; }
+    });
+  });
+
+  /* ---------- listas desplegables (acordeones e ítems) ---------- */
+  document.querySelectorAll('.acc>button, .item>button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',!open);
+      b.nextElementSibling.hidden = open;
+    });
+  });
+
+  /* ---------- crear ruta: agregar tramo / parada / destacado ---------- */
+  var tramos=document.getElementById('tramos');
+  var lugares=['Mercado Central','Casa del Arte','Teatro Biobío','Barrio Estación','Universidad de Concepción','Cerro Caracol'];
+  var nextLugar=0;
+  function lastTramo(){ return tramos.lastElementChild; }
+  document.querySelectorAll('[data-add]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var kind=b.dataset.add, name=lugares[nextLugar++%lugares.length];
+      if(kind==='tramo'){
+        var n=tramos.children.length+1;
+        var from=lastTramo().querySelectorAll('input')[1].value;
+        var t=document.createElement('div'); t.className='tramo';
+        t.innerHTML='<div class="head"><b>Tramo '+n+'</b><span>recto · — m</span></div>'
+          +'<div class="input"><span class="pin">●</span><input value="'+from+'"></div><div class="conn"><i></i></div>'
+          +'<div class="input"><span class="pin end">■</span><input placeholder="Dirección final"></div><div class="chips"></div>';
+        tramos.appendChild(t);
+        document.getElementById('tcount').textContent=n+' tramos';
+        t.querySelectorAll('input')[1].focus();
+      }else{
+        var chips=lastTramo().querySelector('.chips');
+        var c=document.createElement('span');
+        c.className='chip '+(kind==='parada'?'stop':'star');
+        c.textContent=(kind==='parada'?'● Parada · ':'★ Destacado · ')+name;
+        chips.appendChild(c);
+      }
+    });
+  });
+
+  /* ---------- compartir ---------- */
+  document.querySelectorAll('[data-share]').forEach(function(b){
+    var sh=document.getElementById(b.dataset.share);
+    b.addEventListener('click',function(){ sh.hidden=!sh.hidden; });
+    sh.querySelector('.linkbox').addEventListener('click',function(){ toast(b,'Enlace copiado'); });
+    sh.querySelectorAll('button')[0].addEventListener('click',function(){ toast(b,'Enlace copiado'); });
+  });
+
+  /* ---------- perfil: edición individual ---------- */
+  document.querySelectorAll('[data-profile]').forEach(function(p){
+    var bar=p.querySelector('.savebar'), dirty=[];
+    p.querySelectorAll('.dato .edit').forEach(function(e){
+      e.addEventListener('click',function(){
+        var d=e.parentElement; if(d.classList.contains('editing')) return;
+        var v=d.querySelector('.v'); var inp=document.createElement('input'); inp.value=v.textContent; inp.dataset.orig=v.textContent;
+        v.replaceWith(inp); d.classList.add('editing'); inp.focus(); inp.select();
+        inp.addEventListener('input',function(){ bar.hidden=false; });
+        dirty.push(d);
+      });
+    });
+    function finish(keep){
+      dirty.forEach(function(d){ var inp=d.querySelector('input'); var v=document.createElement('span'); v.className='v'; v.textContent=keep?inp.value:inp.dataset.orig; inp.replaceWith(v); d.classList.remove('editing'); });
+      dirty=[]; bar.hidden=true;
+    }
+    bar.querySelector('[data-act="save"]').addEventListener('click',function(){ finish(true); toast(bar,'Cambios guardados'); });
+    bar.querySelector('[data-act="discard"]').addEventListener('click',function(){ finish(false); });
+  });
+
+  /* ---------- toasts ---------- */
+  function toast(el,msg){ var t=el.closest('.screen').querySelector('.toast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show')},1800); }
+  document.querySelectorAll('[data-toast]').forEach(function(b){ b.addEventListener('click',function(){ toast(b,b.dataset.toast); }); });
+})();
+</script>
