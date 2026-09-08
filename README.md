@@ -20,6 +20,13 @@ Las cinco paletas del sistema sobre el flujo completo en 6 fases. En el sitio pu
 |--------|---------|----------|
 | ![Lámina bosque](mockups/img/bosque/lamina-bosque.png) | ![Lámina cítrica](mockups/img/citrica/lamina-citrica.png) | ![Lámina tropical](mockups/img/tropical/lamina-tropical.png) |
 
+### Capturas del sitio publicado
+
+Verificación visual del despliegue en GitHub Pages (septiembre 2026), disponible en [docs/capturas/](docs/capturas/):
+
+- [Página del repositorio en GitHub](docs/capturas/github-readme.png) — README con galería y tabla de fases
+- Mockup renderizado en cada paleta: [estándar](docs/capturas/mockup-estandar.png) · [atardecer](docs/capturas/mockup-atardecer.png) · [bosque](docs/capturas/mockup-bosque.png) · [cítrica](docs/capturas/mockup-citrica.png) · [tropical](docs/capturas/mockup-tropical.png)
+
 ---
 
 ## ¿Qué es ConceTour 3D?
