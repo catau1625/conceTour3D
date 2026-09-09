@@ -2,7 +2,7 @@
 
 **ConceTour 3D** es una aplicación móvil de **realidad aumentada** para crear, compartir y recorrer rutas turísticas a pie por Concepción (Región del Biobío, Chile). Al iniciar un recorrido, la pantalla se convierte en una vista de cámara en vivo: **flechas en tiempo real** guían hacia la siguiente parada, la **información de cada lugar** aparece en un recuadro desplegable, y en los **edificios históricos** la imagen antigua se superpone a la fachada real como si el pasado se viera en tiempo real.
 
-Este repositorio contiene la documentación de diseño del proyecto: el mockup interactivo del flujo, la especificación de realidad aumentada, el sistema de paletas de color y la tipografía.
+Este repositorio contiene la documentación de diseño del proyecto: el mockup interactivo del flujo completo (7 fases), la especificación de realidad aumentada, el sistema de paletas de color y la tipografía.
 
 > Estado del proyecto: **diseño / prototipado** — aún no existe implementación de la app; el material aquí publicado es la base sobre la cual se construirá.
 
@@ -12,7 +12,7 @@ Este repositorio contiene la documentación de diseño del proyecto: el mockup i
 
 ## Galería
 
-Las cinco paletas del sistema sobre el flujo completo en 6 fases. En el sitio puedes cambiarlas en vivo con el selector o con `?paleta=…` en la URL.
+Las cinco paletas del sistema sobre el flujo completo en 7 fases. En el sitio puedes cambiarlas en vivo con el selector o con `?paleta=…` en la URL.
 
 | Estándar | Atardecer |
 |----------|-----------|
@@ -46,7 +46,7 @@ La especificación completa de la experiencia AR está en [docs/realidad-aumenta
 
 ## Flujo de diseño: 7 fases
 
-Las fases 1 a 6 están prototipadas en el mockup interactivo; la fase 7 está especificada en documentos.
+Las siete fases están prototipadas en el mockup interactivo; la fase 7 usa una escena de cámara simulada en SVG.
 
 | Fase | Pantalla | Descripción |
 |------|----------|-------------|
@@ -56,7 +56,7 @@ Las fases 1 a 6 están prototipadas en el mockup interactivo; la fase 7 está es
 | 4 | [Perfil](docs/flujo-de-fases.md#fase-4--perfil) | Datos editables y listas plegadas (recorridas, propias, favoritas) |
 | 5 | [Perfil · listas desplegadas](docs/flujo-de-fases.md#fase-5--perfil-con-listas-desplegadas) | Las tres listas del perfil abiertas |
 | 6 | [Ver ruta](docs/flujo-de-fases.md#fase-6--ver-ruta) | Mapa con paradas y destacados, cada uno con carrusel de 3 imágenes; CTA «Iniciar recorrido» |
-| 7 | [Recorrido AR](docs/flujo-de-fases.md#fase-7--recorrido-ar-especificada-sin-mockup-aún) *(sin mockup aún)* | Cámara en vivo con flechas de navegación, recuadros de información y superposición histórica |
+| 7 | [Recorrido AR](docs/flujo-de-fases.md#fase-7--recorrido-ar) | Cámara en vivo simulada: flechas de navegación, hoja de información plegable, deslizador «ayer ⇄ hoy» y alternancia AR ⇄ Mapa |
 
 ## Sistema de diseño
 
@@ -72,7 +72,7 @@ Abre el archivo directamente en un navegador:
 open mockups/conceTour3D-fases.html
 ```
 
-Los seis teléfonos del documento son **interactivos**: los menús, switches, acordeones, botones de agregar paradas/tramos/destacados y los carruseles responden al clic.
+Los siete teléfonos del documento son **interactivos**: menús, switches, acordeones, botones de agregar paradas/tramos/destacados, carruseles y los controles de la fase 7 (deslizador «ayer ⇄ hoy», hoja plegable, selector AR ⇄ Mapa) responden al clic o al gesto.
 
 ### Probar las paletas de color
 
@@ -102,7 +102,7 @@ conceTour3D/
 ├── mockups/
 │   ├── conceTour3D-fases.html     ← mockup interactivo (HTML + CSS + JS, un solo archivo)
 │   └── img/                       ← exportaciones PNG por paleta y fase
-│       ├── estandar/              ← fase-01…fase-06 + lámina completa
+│       ├── estandar/              ← fase-01…fase-07 + lámina completa
 │       ├── atardecer/
 │       ├── bosque/
 │       ├── citrica/
@@ -118,9 +118,9 @@ conceTour3D/
 
 ## Roadmap previsto
 
+- [x] ~~Mockup de la fase 7 (recorrido AR)~~ — hecho: cámara simulada, flechas, hoja plegable y «ayer ⇄ hoy»
 - [ ] Elección de stack con soporte AR: nativo (ARKit iOS / ARCore Android), multiplataforma (Unity AR Foundation, Flutter) o híbrido
 - [ ] Estrategia de anclaje AR: fase 1 GPS + brújula, fase 2 reconocimiento de imagen por fachada
-- [ ] Mockup de la fase 7 (vista cámara: flechas, bottom sheet de info, modo «ayer y hoy»)
 - [ ] UI de carga de contenido en destacados (fase 2): información, imágenes, edificios históricos
 - [ ] Mapa real con cartografía de Concepción (reemplaza el mapa vectorial ilustrado del mockup)
 - [ ] Sistema de cuentas y autenticación

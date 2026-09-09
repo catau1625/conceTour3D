@@ -1,6 +1,6 @@
 # Flujo de diseño: las fases del recorrido
 
-Este documento describe pantalla por pantalla el flujo completo. Las **fases 1 a 6** están prototipadas en el mockup interactivo (`mockups/conceTour3D-fases.html`); la **fase 7** (recorrido en realidad aumentada) está especificada aquí y en [docs/realidad-aumentada.md](realidad-aumentada.md), aún sin mockup.
+Este documento describe pantalla por pantalla el flujo completo. Las **fases 1 a 7** están prototipadas en el mockup interactivo (`mockups/conceTour3D-fases.html`); la fase 7 usa una escena de cámara simulada en SVG y resume su especificación en [docs/realidad-aumentada.md](realidad-aumentada.md).
 
 Cada fase prototipada se presenta como un teléfono funcional dentro de una lámina. Todos los controles responden al clic (menús, switches, acordeones, botones de agregar, carruseles), lo que permite validar la UX antes de escribir código de la app.
 
@@ -151,9 +151,9 @@ La pantalla de presentación de la ruta: mapa, paradas, destacados y contenido. 
 
 ---
 
-## Fase 7 · Recorrido AR *(especificada, sin mockup aún)*
+## Fase 7 · Recorrido AR
 
-Vista de cámara en vivo con la ruta dibujada sobre el mundo real. Especificación completa en [docs/realidad-aumentada.md](realidad-aumentada.md).
+Vista de cámara en vivo con la ruta dibujada sobre el mundo real. **Prototipada en el mockup interactivo** (deslizador «ayer ⇄ hoy» funcional, hoja de información plegable y alternancia AR ⇄ Mapa) y especificada en [docs/realidad-aumentada.md](realidad-aumentada.md).
 
 **Elementos:**
 
@@ -166,6 +166,10 @@ Vista de cámara en vivo con la ruta dibujada sobre el mundo real. Especificaci�
 - **HUD mínimo:** distancia/tiempo restante, salida, y alternancia **AR ⇄ mapa** como respaldo.
 
 **Decisión de diseño:** toda la interacción del recorrido ocurre sobre la cámara; los paneles de contenido se despliegan y pliegan sin obligar a salir de la vista. Si el equipo no soporta AR o el GPS pierde precisión, la app degrada con elegancia a la vista mapa.
+
+![Fase 7 — paleta estándar](../mockups/img/estandar/fase-07-recorrido-ar.png)
+
+> En el mockup interactivo la escena de cámara es una ilustración vectorial simulada: mueve el deslizador «ayer ⇄ hoy» para mezclar la fotografía histórica de 1938 con la fachada, pliega la hoja de información con el asa y alterna AR ⇄ Mapa con el selector superior.
 
 ---
 
@@ -195,7 +199,6 @@ Fase 6 ── ▶ Iniciar recorrido ─────────► Fase 7 (Recor
 
 ## Flujos aún no prototipados
 
-- **Fase 7 · Recorrido AR** — especificada en [docs/realidad-aumentada.md](realidad-aumentada.md); requiere mockup propio (vista cámara + HUD + bottom sheet de contenido).
 - Adjuntar contenido (📝/🖼️/🏛️) en el formulario de la fase 2 — la estructura está definida, falta la UI de carga de archivos en el mockup.
 - Unirse a un recorrido con código/enlace de invitación (entrada desde la fase 1).
 - Buscador de rutas públicas cercanas.

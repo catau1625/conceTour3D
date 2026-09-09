@@ -89,6 +89,6 @@ Nuevas decisiones técnicas que la AR agrega antes de implementar:
 
 - [ ] Elección de stack con soporte AR: **nativo** (ARKit iOS / ARCore Android), **multiplataforma** (Unity AR Foundation, Flutter con plugins AR) o híbrido
 - [ ] Estrategia de anclaje: fase 1 GPS+brújula, fase 2 reconocimiento de imagen por fachada
-- [ ] Diseño de la pantalla de recorrido AR (fase 7 del flujo — aún sin mockup)
+- [x] ~~Diseño de la pantalla de recorrido AR~~ — **hecho**: fase 7 del mockup con vista cámara, flechas, hoja de información plegable, alternancia AR ⇄ Mapa y deslizador «ayer ⇄ hoy»
 - [ ] Modelo de datos de destacados: tipo de contenido (info / imagen / edificio histórico), archivos, licencia, foto de referencia
 - [ ] Flujo de permisos y degradación elegante en equipos sin AR
