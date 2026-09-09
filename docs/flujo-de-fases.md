@@ -44,16 +44,19 @@ Formulario de creación de ruta. Es la pantalla con más densidad de informació
   - Cabecera: «Tramo N» + tipo y distancia (ej. «recto · 650 m»).
   - Campo de origen (● pin) y destino (■ pin).
   - Chips de paradas (●) y destacados (★) asociados al tramo.
-- **Contenido de destacados (definido con AR):** al agregar un destacado se ofrece adjuntar:
-  - 📝 **Información** → texto que se mostrará en un **recuadro desplegable** durante el recorrido.
-  - 🖼️ **Imagen(es)** → se **superponen en tiempo real** en la vista de cámara.
-  - 🏛️ **Edificio histórico** → pide además la **imagen antigua + foto actual de referencia** para el modo «ayer y hoy» (ver fase 7 y [realidad-aumentada.md](realidad-aumentada.md)).
+- **Contenido de destacados (prototipado):** al tocar **«★ Agregar destacado»** se abre un panel *Nuevo destacado* con nombre del lugar y tres tipos de contenido:
+  - 📝 **Información** → campo de descripción que se mostrará en un **recuadro desplegable** durante el recorrido.
+  - 🖼️ **Imágenes** → zona de carga simulada (se **superponen en tiempo real** en la vista de cámara).
+  - 🏛️ **Edificio histórico** → pide la **imagen antigua (obligatoria) + foto actual de referencia** para el modo «ayer y hoy» (ver fase 7 y [realidad-aumentada.md](realidad-aumentada.md)), con aviso de declarar fuente/licencia en rutas públicas.
+  - Al confirmar, el destacado se agrega como chip al tramo con su icono de tipo (📝/🖼️/🏛️).
 - **Botones de agregar:** + Agregar parada · ★ Agregar destacado · + Agregar tramo (agregan elementos al formulario de forma dinámica en el mockup).
 - **CTA fijo (sticky):** «Crear ruta» → muestra el toast «Ruta creada ✓» y representa la transición a la fase 3.
 
 **Decisión de diseño:** el switch de horarios revela sus campos en lugar de mostrarlos siempre, manteniendo el formulario compacto cuando no aplican. El contenido multimedia de cada punto viaja asociado a su georreferencia, porque es lo que la vista AR consume en el recorrido.
 
 ![Fase 2 — paleta estándar](../mockups/img/estandar/fase-02-crear-ruta.png)
+
+> La captura muestra el panel de destacado abierto (se abre con «★ Agregar destacado» o forzado con `?fase=2&panel=att2`). Los tres tipos de contenido alternan sus campos al tocarse.
 
 ---
 
@@ -199,7 +202,6 @@ Fase 6 ── ▶ Iniciar recorrido ─────────► Fase 7 (Recor
 
 ## Flujos aún no prototipados
 
-- Adjuntar contenido (📝/🖼️/🏛️) en el formulario de la fase 2 — la estructura está definida, falta la UI de carga de archivos en el mockup.
 - Unirse a un recorrido con código/enlace de invitación (entrada desde la fase 1).
 - Buscador de rutas públicas cercanas.
 - Escaneo de código QR como acceso directo a una ruta.

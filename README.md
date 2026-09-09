@@ -51,7 +51,7 @@ Las siete fases están prototipadas en el mockup interactivo; la fase 7 usa una 
 | Fase | Pantalla | Descripción |
 |------|----------|-------------|
 | 1 | [Inicio / bienvenida](docs/flujo-de-fases.md#fase-1--inicio--bienvenida) | Menú de usuario, acceso rápido a crear o unirse a un recorrido |
-| 2 | [Crear ruta](docs/flujo-de-fases.md#fase-2--crear-ruta) | Formulario con tramos, paradas, destacados con contenido (info/imágenes/edificios) y horarios |
+| 2 | [Crear ruta](docs/flujo-de-fases.md#fase-2--crear-ruta) | Formulario con tramos, paradas, destacados con panel de contenido (📝 info · 🖼️ imágenes · 🏛️ edificios) y horarios |
 | 3 | [Ruta creada](docs/flujo-de-fases.md#fase-3--ruta-creada) | Ticket de éxito con código de ruta, mapa y opciones de compartir |
 | 4 | [Perfil](docs/flujo-de-fases.md#fase-4--perfil) | Datos editables y listas plegadas (recorridas, propias, favoritas) |
 | 5 | [Perfil · listas desplegadas](docs/flujo-de-fases.md#fase-5--perfil-con-listas-desplegadas) | Las tres listas del perfil abiertas |
@@ -121,7 +121,7 @@ conceTour3D/
 - [x] ~~Mockup de la fase 7 (recorrido AR)~~ — hecho: cámara simulada, flechas, hoja plegable y «ayer ⇄ hoy»
 - [ ] Elección de stack con soporte AR: nativo (ARKit iOS / ARCore Android), multiplataforma (Unity AR Foundation, Flutter) o híbrido
 - [ ] Estrategia de anclaje AR: fase 1 GPS + brújula, fase 2 reconocimiento de imagen por fachada
-- [ ] UI de carga de contenido en destacados (fase 2): información, imágenes, edificios históricos
+- [x] ~~UI de carga de contenido en destacados (fase 2)~~ — hecho: panel *Nuevo destacado* con 📝 información, 🖼️ imágenes y 🏛️ edificio histórico (imagen antigua + foto de referencia)
 - [ ] Mapa real con cartografía de Concepción (reemplaza el mapa vectorial ilustrado del mockup)
 - [ ] Sistema de cuentas y autenticación
 - [ ] Códigos de invitación y enlaces públicos

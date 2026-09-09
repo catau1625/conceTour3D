@@ -46,7 +46,9 @@ Caso especial acordado para **edificios importantes**:
 
 **Decisión de diseño:** partir con GPS + brújula y reconocimiento de imagen por fachada; el world tracking queda como mejora evolutiva.
 
-## 5. Cambios en la creación de recorridos (fase 2)
+## 5. Cambios en la creación de recorridos (fase 2) — *prototipado*
+
+> ✅ Este flujo ya está prototipado en el mockup: «★ Agregar destacado» abre el panel *Nuevo destacado* con los tres tipos de contenido (se abre forzado con `?fase=2&panel=att2`).
 
 El formulario de «Crear ruta» se amplía. Al **agregar un destacado** (★) o parada, se ofrece adjuntar contenido:
 

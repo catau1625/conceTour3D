@@ -326,6 +326,23 @@ h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
 .ar .sheet-ar.folded .chev{transform:rotate(180deg)}
 .ar .sheet-ar p{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
 
+/* ---------- fase 2 · adjuntar contenido a un destacado ---------- */
+.attach{border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:10px;background:var(--surface)}
+.attach .head{display:flex;justify-content:space-between;align-items:center}
+.attach .head b{font-weight:700}
+.attach .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.attach .opt{border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 6px;display:grid;justify-items:center;gap:3px;text-align:center;cursor:pointer}
+.attach .opt .ico{font-size:20px;line-height:1}
+.attach .opt b{font-size:11.5px}
+.attach .opt span{font-size:9.8px;color:var(--muted);line-height:1.25}
+.attach .opt.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent-soft)}
+.attach .drop{border:1.5px dashed var(--line);border-radius:12px;padding:14px 10px;display:grid;justify-items:center;gap:3px;text-align:center;font-size:12.5px;background:var(--surface-2)}
+.attach .drop span{font-size:10.5px;color:var(--muted)}
+.attach .thumbs{display:flex;gap:8px}
+.attach .thumbs i{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent-soft),var(--surface-2));border:1px dashed var(--line)}
+.attach .hintline{margin:0;font-size:10.5px;color:var(--muted);line-height:1.4}
+.attach textarea{width:100%;border:0;background:transparent;resize:none;outline:none;font:inherit;color:inherit}
+
 .toast{position:absolute;left:50%;bottom:28px;transform:translate(-50%,10px);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:999px;font-size:12.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;z-index:9}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -392,7 +409,7 @@ h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
 
   <!-- ============ FASE 2 · CREAR RUTA ============ -->
   <section class="fase" data-fase="2">
-    <div class="cap"><span class="num">Fase 2</span><b>Crear ruta · formulario</b><span class="hint">Switches Pública / Horarios funcionan. Los botones agregan paradas, tramos y destacados. «Crear ruta» cierra el proceso.</span></div>
+    <div class="cap"><span class="num">Fase 2</span><b>Crear ruta · formulario</b><span class="hint">Switches Pública / Horarios funcionan. «Agregar destacado» abre el panel de contenido (📝 info · 🖼️ imágenes · 🏛️ edificio histórico). «Crear ruta» cierra el proceso.</span></div>
     <div class="phone"><div class="screen">
       <div class="status"><span>9:41</span><span class="pill"></span><span>●●● ▲ ▮</span></div>
       <div class="body">
@@ -441,8 +458,39 @@ h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
         </div>
         <div class="adds">
           <button class="btn sm soft" data-add="parada">+ Agregar parada</button>
-          <button class="btn sm soft" data-add="destacado" style="background:var(--star-soft);color:var(--star)">★ Agregar destacado</button>
+          <button class="btn sm soft" data-open="att2" style="background:var(--star-soft);color:var(--star)">★ Agregar destacado</button>
           <button class="btn sm ghost wide" data-add="tramo">+ Agregar tramo</button>
+        </div>
+        <div class="attach" id="att2" hidden>
+          <div class="head"><b>Nuevo destacado</b><span class="label">se ancla a este tramo</span></div>
+          <div class="field">
+            <span class="label">Nombre del lugar</span>
+            <div class="input"><input placeholder="Ej: Fuente de la Plaza"></div>
+          </div>
+          <div class="opts" role="group" aria-label="Tipo de contenido">
+            <button class="opt on" data-opt="info"><span class="ico">📝</span><b>Información</b><span>Se muestra en un recuadro desplegable</span></button>
+            <button class="opt" data-opt="img"><span class="ico">🖼️</span><b>Imágenes</b><span>Se superponen en tiempo real</span></button>
+            <button class="opt" data-opt="hist"><span class="ico">🏛️</span><b>Edificio histórico</b><span>Ayer ⇄ hoy sobre la fachada</span></button>
+          </div>
+          <div class="optpane" data-pane="info">
+            <div class="field">
+              <span class="label">Descripción</span>
+              <div class="input" style="align-items:flex-start"><textarea rows="3" placeholder="Se despliega al llegar al lugar durante el recorrido…"></textarea></div>
+            </div>
+          </div>
+          <div class="optpane" data-pane="img" hidden>
+            <div class="drop">🖼️ Arrastra imágenes o <b>toca para subir</b><span>Se verán superpuestas en la cámara durante el recorrido</span></div>
+            <div class="thumbs"><i></i><i></i><i></i></div>
+          </div>
+          <div class="optpane" data-pane="hist" hidden>
+            <div class="drop">🏛️ <b>Imagen antigua</b> · obligatoria<span>Se alinea sobre la fachada real en el recorrido</span></div>
+            <div class="drop">📷 <b>Foto actual de referencia</b><span>Permite reconocer la fachada con la cámara</span></div>
+            <p class="hintline">En rutas públicas se pedirá declarar la fuente y licencia de la imagen histórica.</p>
+          </div>
+          <div class="row">
+            <button class="btn danger" data-act="cancel">Cancelar</button>
+            <button class="btn primary" data-act="add">★ Agregar destacado</button>
+          </div>
         </div>
         <div class="sticky-cta"><button class="btn primary block" data-toast="Ruta creada ✓">Crear ruta</button></div>
       </div>
@@ -728,6 +776,7 @@ h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
     document.querySelectorAll('.fase').forEach(function(s){ s.hidden = s.dataset.fase !== q; });
     document.querySelector('.sheet').style.padding = '24px';
   }
+  var pq=params.get('panel'); if(pq){ var pp=document.getElementById(pq); if(pp) pp.hidden=false; }
 
   /* ---------- mapa (SVG generado) ---------- */
   function mapSVG(size){
@@ -880,6 +929,32 @@ h2.title{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
     var seg=ar.querySelectorAll('.seg button'), mapv=ar.querySelector('.map');
     seg.forEach(function(b){ b.addEventListener('click',function(){ seg.forEach(function(x){ x.classList.toggle('on',x===b); }); if(mapv) mapv.hidden = b.dataset.view!=='map'; }); });
   });
+
+  /* ---------- fase 2 · panel de contenido del destacado ---------- */
+  document.querySelectorAll('[data-open]').forEach(function(b){
+    var panel=document.getElementById(b.dataset.open);
+    b.addEventListener('click',function(){ panel.hidden=false; });
+  });
+  (function(){
+    var panel=document.getElementById('att2'); if(!panel) return;
+    var opts=panel.querySelectorAll('.opt'), panes=panel.querySelectorAll('.optpane');
+    opts.forEach(function(o){
+      o.addEventListener('click',function(){
+        opts.forEach(function(x){ x.classList.toggle('on',x===o); });
+        panes.forEach(function(p){ p.hidden = p.dataset.pane!==o.dataset.opt; });
+      });
+    });
+    panel.querySelector('[data-act="cancel"]').addEventListener('click',function(){ panel.hidden=true; });
+    panel.querySelector('[data-act="add"]').addEventListener('click',function(){
+      var name=panel.querySelector('input').value.trim() || 'Lugar destacado';
+      var type=panel.querySelector('.opt.on').dataset.opt;
+      var icon=type==='info' ? '📝' : (type==='img' ? '🖼️' : '🏛️');
+      var chips=lastTramo().querySelector('.chips');
+      var c=document.createElement('span'); c.className='chip star'; c.textContent='★ '+name+' · '+icon;
+      chips.appendChild(c); panel.hidden=true;
+      toast(panel,'Destacado agregado '+icon);
+    });
+  })();
 
   /* ---------- toasts ---------- */
   function toast(el,msg){ var t=el.closest('.screen').querySelector('.toast'); if(!t) return; t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show')},1800); }
