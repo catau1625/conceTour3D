@@ -94,6 +94,7 @@ conceTour3D/
 ├── README.md                      ← este archivo
 ├── LICENSE                        ← MIT © 2026 Catalina Ubilla Rubio
 ├── index.html                     ← entrada del sitio (GitHub Pages)
+├── app/                           ← scaffold Flutter (fases 1–2, ver app/README.md)
 ├── docs/
 │   ├── flujo-de-fases.md          ← documentación detallada de las fases (1–7)
 │   ├── realidad-aumentada.md      ← especificación de la experiencia AR

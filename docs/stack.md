@@ -75,9 +75,9 @@ WebXR aún no da image tracking de grado producción en móviles; Viro Community
 
 **Opción D — Flutter como aplicación principal, con un módulo AR nativo embebido por plataforma**, ejecutada por etapas que coinciden con el roadmap de anclaje AR ([realidad-aumentada.md](realidad-aumentada.md) §4):
 
-### Etapa 1 — MVP (solo Flutter, sin código nativo)
+### Etapa 1 — MVP (solo Flutter, sin código nativo) *(scaffold inicial creado en `app/`)*
 
-- Shell completo de la app: fases 1–6 (cuentas, crear ruta con panel de contenido, compartir, perfil, mapas).
+- Shell completo de la app: fases 1–6 (cuentas, crear ruta con panel de contenido, compartir, perfil, mapas). **Iniciado:** fases 1–2 con tema, tokens y navegación.
 - **Recorrido AR «lite» (R1):** vista de cámara con `camera`, flechas con `geolocator` + `flutter_compass`, geocercas, bottom sheet de información y degradación a mapa.
 - **Backend:** Firebase (Auth, Firestore, Storage) o Supabase — decisión independiente, documentada aparte.
 
