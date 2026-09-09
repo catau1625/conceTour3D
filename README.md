@@ -42,7 +42,7 @@ Una app que permite a los usuarios:
 - **Unirse a recorridos** públicos mediante un enlace o código de invitación, y **compartir los propios** con un código corto (ej. `CT-4F7K`).
 - **Guardar perfiles** con rutas recorridas, propias y favoritas.
 
-La especificación completa de la experiencia AR está en [docs/realidad-aumentada.md](docs/realidad-aumentada.md).
+La especificación completa de la experiencia AR está en [docs/realidad-aumentada.md](docs/realidad-aumentada.md), y la propuesta de stack técnico para la implementación (Flutter + módulo AR nativo, por etapas) en [docs/stack.md](docs/stack.md).
 
 ## Flujo de diseño: 7 fases
 
@@ -97,6 +97,7 @@ conceTour3D/
 ├── docs/
 │   ├── flujo-de-fases.md          ← documentación detallada de las fases (1–7)
 │   ├── realidad-aumentada.md      ← especificación de la experiencia AR
+│   ├── stack.md                   ← decisión de stack técnico (ADR)
 │   ├── paletas-de-color.md        ← paletas, tokens semánticos y tipografía
 │   └── capturas/                  ← verificación visual del sitio publicado
 ├── mockups/
@@ -119,7 +120,7 @@ conceTour3D/
 ## Roadmap previsto
 
 - [x] ~~Mockup de la fase 7 (recorrido AR)~~ — hecho: cámara simulada, flechas, hoja plegable y «ayer ⇄ hoy»
-- [ ] Elección de stack con soporte AR: nativo (ARKit iOS / ARCore Android), multiplataforma (Unity AR Foundation, Flutter) o híbrido
+- [ ] Definir stack de implementación — propuesta lista en [docs/stack.md](docs/stack.md): Flutter + módulo AR nativo (ARKit/ARCore) por etapas; confirmar y crear repositorio de código
 - [ ] Estrategia de anclaje AR: fase 1 GPS + brújula, fase 2 reconocimiento de imagen por fachada
 - [x] ~~UI de carga de contenido en destacados (fase 2)~~ — hecho: panel *Nuevo destacado* con 📝 información, 🖼️ imágenes y 🏛️ edificio histórico (imagen antigua + foto de referencia)
 - [ ] Mapa real con cartografía de Concepción (reemplaza el mapa vectorial ilustrado del mockup)
