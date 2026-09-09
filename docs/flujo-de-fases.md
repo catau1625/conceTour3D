@@ -1,8 +1,8 @@
-# Flujo de diseño: las 6 fases
+# Flujo de diseño: las fases del recorrido
 
-Este documento describe pantalla por pantalla el flujo completo del mockup interactivo (`mockups/conceTour3D-fases.html`).
+Este documento describe pantalla por pantalla el flujo completo. Las **fases 1 a 6** están prototipadas en el mockup interactivo (`mockups/conceTour3D-fases.html`); la **fase 7** (recorrido en realidad aumentada) está especificada aquí y en [docs/realidad-aumentada.md](realidad-aumentada.md), aún sin mockup.
 
-Cada fase se presenta como un teléfono funcional dentro de una lámina. Todos los controles responden al clic (menús, switches, acordeones, botones de agregar, carruseles), lo que permite validar la UX antes de escribir código de la app.
+Cada fase prototipada se presenta como un teléfono funcional dentro de una lámina. Todos los controles responden al clic (menús, switches, acordeones, botones de agregar, carruseles), lo que permite validar la UX antes de escribir código de la app.
 
 **Usuario de prueba:** Catalina Ubilla · @cata.conce · Concepción
 
@@ -44,10 +44,14 @@ Formulario de creación de ruta. Es la pantalla con más densidad de informació
   - Cabecera: «Tramo N» + tipo y distancia (ej. «recto · 650 m»).
   - Campo de origen (● pin) y destino (■ pin).
   - Chips de paradas (●) y destacados (★) asociados al tramo.
+- **Contenido de destacados (definido con AR):** al agregar un destacado se ofrece adjuntar:
+  - 📝 **Información** → texto que se mostrará en un **recuadro desplegable** durante el recorrido.
+  - 🖼️ **Imagen(es)** → se **superponen en tiempo real** en la vista de cámara.
+  - 🏛️ **Edificio histórico** → pide además la **imagen antigua + foto actual de referencia** para el modo «ayer y hoy» (ver fase 7 y [realidad-aumentada.md](realidad-aumentada.md)).
 - **Botones de agregar:** + Agregar parada · ★ Agregar destacado · + Agregar tramo (agregan elementos al formulario de forma dinámica en el mockup).
 - **CTA fijo (sticky):** «Crear ruta» → muestra el toast «Ruta creada ✓» y representa la transición a la fase 3.
 
-**Decisión de diseño:** el switch de horarios revela sus campos en lugar de mostrarlos siempre, manteniendo el formulario compacto cuando no aplican.
+**Decisión de diseño:** el switch de horarios revela sus campos en lugar de mostrarlos siempre, manteniendo el formulario compacto cuando no aplican. El contenido multimedia de cada punto viaja asociado a su georreferencia, porque es lo que la vista AR consume en el recorrido.
 
 ![Fase 2 — paleta estándar](../mockups/img/estandar/fase-02-crear-ruta.png)
 
@@ -124,7 +128,7 @@ Cada cabecera de acordeón pliega/despliega su lista. «Ver» navega a la fase 6
 
 ## Fase 6 · Ver ruta
 
-La pantalla principal de consumo: recorrer una ruta existente.
+La pantalla de presentación de la ruta: mapa, paradas, destacados y contenido. Desde aquí arranca el recorrido.
 
 **Elementos:**
 
@@ -136,13 +140,32 @@ La pantalla principal de consumo: recorrer una ruta existente.
   2. **Catedral de la Santísima Concepción** (Parada · 650 m).
   3. **Galería de la Historia** (Parada · 1,4 km).
   4. **Parque Ecuador** (Término · 2,3 km).
-- **Acordeón Lugares destacados (2)** — items estrella con la misma estructura de detalle.
+- **Acordeón Lugares destacados (2)** — items estrella con la misma estructura de detalle. Los destacados muestran además el tipo de contenido adjunto (📝 info · 🖼️ imagen · 🏛️ edificio histórico).
+- **CTA fijo:** **▶ Iniciar recorrido** → abre la fase 7 (vista AR).
 
 **Sistema de marcadores:** punto numerado (`.mk`) = parada en orden de recorrido; estrella = destacado. Los carruseles del mockup usan gradientes de tema por parada (`data-theme-a/b`) como placeholder de fotografía real.
 
-**Decisión de diseño:** el detalle de cada parada (carrusel + descripción) vive plegado dentro del acordeón para que el mapa y la lista de paradas queden visibles primero; el usuario despliega solo lo que le interesa.
+**Decisión de diseño:** el detalle de cada parada (carrusel + descripción) vive plegado dentro del acordeón para que el mapa y la lista de paradas queden visibles primero; el usuario despliega solo lo que le interesa. «Iniciar recorrido» es la acción principal de esta pantalla porque la experiencia final de la app es el recorrido AR, no la lectura del mapa.
 
 ![Fase 6 — paleta estándar](../mockups/img/estandar/fase-06-ver-ruta.png)
+
+---
+
+## Fase 7 · Recorrido AR *(especificada, sin mockup aún)*
+
+Vista de cámara en vivo con la ruta dibujada sobre el mundo real. Especificación completa en [docs/realidad-aumentada.md](realidad-aumentada.md).
+
+**Elementos:**
+
+- **Vista de cámara a pantalla completa** (interfaz tipo cámara fotográfica, sin adornos).
+- **Flechitas de dirección en tiempo real:** superpuestas a la imagen, calculadas con GPS + brújula, guiando hacia la siguiente parada. En la mejora evolutiva se anclan al suelo con world tracking.
+- **Al llegar a una parada:** la flecha da paso al contenido del lugar:
+  - 📝 **Información** → recuadro desplegable inferior (bottom sheet) con nombre y descripción.
+  - 🖼️ **Imágenes** → superpuestas y ancladas a su ubicación en la vista de cámara.
+- **Edificios históricos (modo «ayer y hoy»):** al apuntar la cámara a un edificio registrado, su **imagen antigua se superpone alineada a la fachada real**, con deslizador de opacidad para comparar.
+- **HUD mínimo:** distancia/tiempo restante, salida, y alternancia **AR ⇄ mapa** como respaldo.
+
+**Decisión de diseño:** toda la interacción del recorrido ocurre sobre la cámara; los paneles de contenido se despliegan y pliegan sin obligar a salir de la vista. Si el equipo no soporta AR o el GPS pierde precisión, la app degrada con elegancia a la vista mapa.
 
 ---
 
@@ -163,11 +186,17 @@ Fase 1 ── menú Perfil ─────────────────�
 Fase 4/5 ── Ver (recorridas/favoritas) ► Fase 6
 Fase 4/5 ── Modificar (mis rutas) ─────► Fase 2
 Fase 6 ── Guardar ─────────────────────► añade a «Rutas favoritas» del perfil
+Fase 6 ── ▶ Iniciar recorrido ─────────► Fase 7 (Recorrido AR)
+                                           ├─ Flechas guían a la siguiente parada
+                                           ├─ Parada con info → recuadro desplegable
+                                           ├─ Parada con imágenes → superposición en vivo
+                                           └─ Edificio histórico → imagen antigua sobre fachada
 ```
 
 ## Flujos aún no prototipados
 
+- **Fase 7 · Recorrido AR** — especificada en [docs/realidad-aumentada.md](realidad-aumentada.md); requiere mockup propio (vista cámara + HUD + bottom sheet de contenido).
+- Adjuntar contenido (📝/🖼️/🏛️) en el formulario de la fase 2 — la estructura está definida, falta la UI de carga de archivos en el mockup.
 - Unirse a un recorrido con código/enlace de invitación (entrada desde la fase 1).
 - Buscador de rutas públicas cercanas.
 - Escaneo de código QR como acceso directo a una ruta.
-- Recorrido en vivo (navegación paso a paso con geolocalización).

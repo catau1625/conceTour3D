@@ -1,6 +1,8 @@
 # conceTour3D
 
-**ConceTour 3D** es una aplicación móvil para crear, compartir y recorrer rutas turísticas a pie por Concepción (Región del Biobío, Chile). Este repositorio contiene la documentación de diseño del proyecto: el mockup interactivo del flujo completo, el sistema de paletas de color y la tipografía.
+**ConceTour 3D** es una aplicación móvil de **realidad aumentada** para crear, compartir y recorrer rutas turísticas a pie por Concepción (Región del Biobío, Chile). Al iniciar un recorrido, la pantalla se convierte en una vista de cámara en vivo: **flechas en tiempo real** guían hacia la siguiente parada, la **información de cada lugar** aparece en un recuadro desplegable, y en los **edificios históricos** la imagen antigua se superpone a la fachada real como si el pasado se viera en tiempo real.
+
+Este repositorio contiene la documentación de diseño del proyecto: el mockup interactivo del flujo, la especificación de realidad aumentada, el sistema de paletas de color y la tipografía.
 
 > Estado del proyecto: **diseño / prototipado** — aún no existe implementación de la app; el material aquí publicado es la base sobre la cual se construirá.
 
@@ -33,24 +35,28 @@ Verificación visual del despliegue en GitHub Pages (septiembre 2026), disponibl
 
 Una app que permite a los usuarios:
 
-- **Crear recorridos** propios definiendo tramos, paradas y lugares destacados sobre el mapa de Concepción.
-- **Unirse a recorridos** públicos creados por otros usuarios mediante un enlace o código de invitación.
-- **Compartir rutas** con un código corto (ej. `CT-4F7K`) y un enlace público.
+- **Recorrer con realidad aumentada:** vista de cámara en vivo con flechas de dirección en tiempo real que guían el recorrido hacia la siguiente parada.
+- **Descubrir lugares en contexto:** al llegar a una parada, su información aparece en un **recuadro desplegable** sobre la cámara, y sus imágenes se **superponen en tiempo real** ancladas al lugar.
+- **Ver el «ayer y hoy» de los edificios:** en edificios históricos, la imagen antigua cargada por el creador se alinea sobre la fachada real con un deslizador de opacidad.
+- **Crear recorridos** con tramos, paradas y destacados a los que se adjunta información, imágenes o pares de fotos históricas/actuales.
+- **Unirse a recorridos** públicos mediante un enlace o código de invitación, y **compartir los propios** con un código corto (ej. `CT-4F7K`).
 - **Guardar perfiles** con rutas recorridas, propias y favoritas.
-- **Descubrir cada parada** con un carrusel de imágenes y una descripción breve.
 
-## Flujo de diseño: 6 fases
+La especificación completa de la experiencia AR está en [docs/realidad-aumentada.md](docs/realidad-aumentada.md).
 
-El mockup interactivo documenta el flujo completo en seis pantallas:
+## Flujo de diseño: 7 fases
+
+Las fases 1 a 6 están prototipadas en el mockup interactivo; la fase 7 está especificada en documentos.
 
 | Fase | Pantalla | Descripción |
 |------|----------|-------------|
 | 1 | [Inicio / bienvenida](docs/flujo-de-fases.md#fase-1--inicio--bienvenida) | Menú de usuario, acceso rápido a crear o unirse a un recorrido |
-| 2 | [Crear ruta](docs/flujo-de-fases.md#fase-2--crear-ruta) | Formulario con tramos, paradas, destacados, visibilidad y horarios |
+| 2 | [Crear ruta](docs/flujo-de-fases.md#fase-2--crear-ruta) | Formulario con tramos, paradas, destacados con contenido (info/imágenes/edificios) y horarios |
 | 3 | [Ruta creada](docs/flujo-de-fases.md#fase-3--ruta-creada) | Ticket de éxito con código de ruta, mapa y opciones de compartir |
 | 4 | [Perfil](docs/flujo-de-fases.md#fase-4--perfil) | Datos editables y listas plegadas (recorridas, propias, favoritas) |
 | 5 | [Perfil · listas desplegadas](docs/flujo-de-fases.md#fase-5--perfil-con-listas-desplegadas) | Las tres listas del perfil abiertas |
-| 6 | [Ver ruta](docs/flujo-de-fases.md#fase-6--ver-ruta) | Mapa con paradas y destacados, cada uno con carrusel de 3 imágenes |
+| 6 | [Ver ruta](docs/flujo-de-fases.md#fase-6--ver-ruta) | Mapa con paradas y destacados, cada uno con carrusel de 3 imágenes; CTA «Iniciar recorrido» |
+| 7 | [Recorrido AR](docs/flujo-de-fases.md#fase-7--recorrido-ar-especificada-sin-mockup-aún) *(sin mockup aún)* | Cámara en vivo con flechas de navegación, recuadros de información y superposición histórica |
 
 ## Sistema de diseño
 
@@ -87,9 +93,12 @@ Sin parámetro se usa la paleta **Estándar** (única con modo oscuro automátic
 conceTour3D/
 ├── README.md                      ← este archivo
 ├── LICENSE                        ← MIT © 2026 Catalina Ubilla Rubio
+├── index.html                     ← entrada del sitio (GitHub Pages)
 ├── docs/
-│   ├── flujo-de-fases.md          ← documentación detallada de las 6 pantallas
-│   └── paletas-de-color.md        ← paletas, tokens semánticos y tipografía
+│   ├── flujo-de-fases.md          ← documentación detallada de las fases (1–7)
+│   ├── realidad-aumentada.md      ← especificación de la experiencia AR
+│   ├── paletas-de-color.md        ← paletas, tokens semánticos y tipografía
+│   └── capturas/                  ← verificación visual del sitio publicado
 ├── mockups/
 │   ├── conceTour3D-fases.html     ← mockup interactivo (HTML + CSS + JS, un solo archivo)
 │   └── img/                       ← exportaciones PNG por paleta y fase
@@ -109,10 +118,14 @@ conceTour3D/
 
 ## Roadmap previsto
 
-- [ ] Definir stack de implementación (app móvil) y repositorio de código
+- [ ] Elección de stack con soporte AR: nativo (ARKit iOS / ARCore Android), multiplataforma (Unity AR Foundation, Flutter) o híbrido
+- [ ] Estrategia de anclaje AR: fase 1 GPS + brújula, fase 2 reconocimiento de imagen por fachada
+- [ ] Mockup de la fase 7 (vista cámara: flechas, bottom sheet de info, modo «ayer y hoy»)
+- [ ] UI de carga de contenido en destacados (fase 2): información, imágenes, edificios históricos
 - [ ] Mapa real con cartografía de Concepción (reemplaza el mapa vectorial ilustrado del mockup)
 - [ ] Sistema de cuentas y autenticación
 - [ ] Códigos de invitación y enlaces públicos
+- [ ] Flujo de permisos (cámara, ubicación, brújula) y degradación elegante sin AR
 - [ ] Decisión final de paleta (la neutral es la base; las temáticas están en evaluación)
 
 ## Licencia
